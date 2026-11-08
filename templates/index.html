@@ -1,0 +1,242 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chindo's Cake and More</title>
+<style>
+* { box-sizing:border-box; }
+body {
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:#fff4f7;
+ color:#39232d;
+}
+header {
+ background:linear-gradient(120deg,#8b1249,#dc4384);
+ color:white;
+ text-align:center;
+ padding:35px 15px;
+}
+.logo {
+ width:105px;height:105px;
+ margin:auto;
+ border:4px solid white;
+ border-radius:50%;
+ background:#fff0f5;
+ color:#a51c59;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ font-size:48px;
+}
+header h1 {font-size:30px;margin:12px 0;}
+header p {font-size:17px;}
+.features {color:#ffe5a1;font-weight:bold;}
+.heading {
+ text-align:center;
+ color:#a51c59;
+ margin:28px 10px 15px;
+}
+.products {
+ display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:12px;
+ padding:12px;
+}
+.product {
+ background:white;
+ border-radius:13px;
+ overflow:hidden;
+ text-align:center;
+ box-shadow:0 3px 10px #e7cbd7;
+ padding-bottom:13px;
+}
+.product img {
+ width:100%;
+ height:130px;
+ object-fit:cover;
+}
+.emoji {
+ height:130px;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ font-size:55px;
+ background:#ffe3ed;
+}
+.product h3 {font-size:15px;margin:12px 4px 6px;}
+.price {
+ color:#a51c59;
+ font-size:17px;
+ font-weight:bold;
+ margin:7px;
+}
+.order-btn {
+ display:inline-block;
+ background:#19b957;
+ color:white;
+ border:0;
+ border-radius:20px;
+ padding:10px 12px;
+ font-size:12px;
+ text-decoration:none;
+ font-weight:bold;
+}
+.order {
+ background:#fff;
+ margin:15px;
+ padding:20px;
+ border:2px solid #e9a4c1;
+ border-radius:14px;
+}
+.order h2 {color:#a51c59;}
+label {font-weight:bold;}
+input,select,textarea {
+ width:100%;
+ padding:12px;
+ margin:8px 0 15px;
+ border:1px solid #d8b7c5;
+ border-radius:7px;
+ font-size:15px;
+}
+.submit {
+ width:100%;
+ background:#19b957;
+ color:white;
+ padding:14px;
+ border:0;
+ border-radius:8px;
+ font-size:16px;
+ font-weight:bold;
+}
+footer {
+ background:#870d43;
+ color:white;
+ text-align:center;
+ padding:22px 10px;
+}
+footer h3 {font-size:21px;}
+@media(min-width:650px) {
+ .products {grid-template-columns:repeat(3,1fr);}
+ .product img,.emoji {height:180px;}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+ <div class="logo">🎂</div>
+ <h1>Chindo's Cake and More</h1>
+ <p>Delicious Cakes, Snacks and Meals Made With Love ❤️</p>
+ <p class="features">✓ Freshly Made &nbsp; ✓ Great Taste<br>
+ ✓ Affordable Prices &nbsp; ✓ For Every Occasion</p>
+ <h2>AND MORE!</h2>
+</header>
+
+<h2 class="heading">Our Products and Prices</h2>
+<section class="products" id="products"></section>
+
+<section class="order">
+ <h2>🛒 Place Your Order</h2>
+ <form id="orderForm">
+  <label>Your Name</label>
+  <input id="customerName" placeholder="Enter your name" required>
+
+  <label>Your Phone Number</label>
+  <input id="customerPhone" type="tel" placeholder="Enter your phone number" required>
+
+  <label>Choose Your Product</label>
+  <select id="product" required></select>
+
+  <label>Quantity</label>
+  <input id="quantity" type="number" min="1" value="1" required>
+
+  <label>Delivery Address</label>
+  <textarea id="address" placeholder="Enter your delivery address" required></textarea>
+
+  <button class="submit" type="submit">📱 Submit Order on WhatsApp</button>
+ </form>
+</section>
+
+<footer>
+ <h3>Chindo's Cake and More ❤️</h3>
+ <p>Thank you for choosing us!</p>
+ <p>WhatsApp: 08145635893</p>
+ <p>Bake • Snack • Enjoy</p>
+</footer>
+
+<script>
+const whatsappNumber = "2348145635893";
+
+const products = [
+ {name:"Birthday Cake",price:25000,emoji:"🎂",image:"https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=500"},
+ {name:"Cupcakes",price:8000,emoji:"🧁",image:"https://images.unsplash.com/photo-1486427944299-d1955d23e34d?w=500"},
+ {name:"Wedding Cake",price:100000,emoji:"🎂"},
+ {name:"Small Chops",price:5000,emoji:"🍢"},
+ {name:"Plain Donut",price:800,emoji:"🍩"},
+ {name:"Milky Donut",price:1200,emoji:"🍩"},
+ {name:"Samosa (1 piece)",price:500,emoji:"🥟"},
+ {name:"Pizza (Medium)",price:14700,emoji:"🍕"},
+ {name:"Chicken Shawarma",price:4500,emoji:"🌯"},
+ {name:"Meat Pie",price:1500,emoji:"🥧"},
+ {name:"Spring Roll (1 piece)",price:500,emoji:"🥢"},
+ {name:"Money Bag (1 piece)",price:1000,emoji:"🥟"},
+ {name:"Egg Roll",price:1000,emoji:"🥚"},
+ {name:"Jollof Rice (1 plate)",price:4000,emoji:"🍚"},
+ {name:"Fried Rice (1 plate)",price:4500,emoji:"🍛"},
+ {name:"Peppered Chicken (1 piece)",price:2500,emoji:"🍗"}
+];
+
+const area=document.getElementById("products");
+const select=document.getElementById("product");
+
+products.forEach((item,index)=>{
+ const card=document.createElement("div");
+ card.className="product";
+ const picture=item.image
+ ? `<img src="${item.image}" alt="${item.name}">`
+ : `<div class="emoji">${item.emoji}</div>`;
+
+ card.innerHTML=`
+ ${picture}
+ <h3>${item.name}</h3>
+ <p class="price">₦${item.price.toLocaleString("en-NG")}</p>
+ <a class="order-btn" href="https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Hello Chindo's Cake and More! I want to order "+item.name)}" target="_blank">● Order on WhatsApp</a>
+ `;
+ area.appendChild(card);
+
+ const option=document.createElement("option");
+ option.value=item.name;
+ option.textContent=item.name+" - ₦"+item.price.toLocaleString("en-NG");
+ select.appendChild(option);
+});
+
+document.getElementById("orderForm").addEventListener("submit",function(e){
+ e.preventDefault();
+
+ const name=document.getElementById("customerName").value;
+ const phone=document.getElementById("customerPhone").value;
+ const product=select.value;
+ const quantity=Number(document.getElementById("quantity").value);
+ const address=document.getElementById("address").value;
+ const item=products.find(p=>p.name===product);
+ const total=item.price*quantity;
+
+ const message=`Hello Chindo's Cake and More!
+Name: ${name}
+Phone: ${phone}
+Product: ${product}
+Quantity: ${quantity}
+Unit price: ₦${item.price.toLocaleString("en-NG")}
+Estimated total: ₦${total.toLocaleString("en-NG")}
+Delivery address: ${address}`;
+
+ window.open("https://wa.me/"+whatsappNumber+"?text="+encodeURIComponent(message),"_blank");
+});
+</script>
+
+</body>
+</html>
